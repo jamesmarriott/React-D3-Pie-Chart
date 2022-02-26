@@ -1,3 +1,10 @@
 .wedge{
   stroke: black;
 }
+
+.legend-container{
+  width: 296px;
+  height: 80px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}

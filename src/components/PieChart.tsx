@@ -1,5 +1,6 @@
 import { RadialChart, LabelSeries } from "react-vis";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { Legend } from 'Legend';
 
 type IFootPrintProps = {
     footPrintData : {
@@ -18,6 +19,7 @@ const PieChart: React.FC<IFootPrintProps> = ({
     footPrintData
  }) => {
  
+
     const { 
         categories: { consumption },
         categories: { energy }, 
@@ -26,10 +28,15 @@ const PieChart: React.FC<IFootPrintProps> = ({
      } = footPrintData
 
      const { categories } = footPrintData
+     // addded because typescript won't let me destructure using reserved 'public' keyword
      const publicPer = categories.public.percent
 
+     useEffect(() => {
+        console.log(chartRef)
+	}, [chartRef]);
+
     const [data, setData] = useState([
-        { angle: consumption.percent, color: "#EF5F8A", style: { stroke: "black" }},
+        { angle: consumption.percent, color: "#EF5F8A"},
         { angle: energy.percent, color: "#00A1C9"},
         { angle: food.percent, color: "#F6BA75" },
         { angle: transport.percent, color: "#673E88" },
@@ -37,7 +44,7 @@ const PieChart: React.FC<IFootPrintProps> = ({
       ]);
 
 return (
- 
+
       <RadialChart
         colorType="literal"
         padAngle={.03}
@@ -48,7 +55,7 @@ return (
         width={250}
         height={250}
         showLabels={true}
-    />
+    />  
  )
  }
  
