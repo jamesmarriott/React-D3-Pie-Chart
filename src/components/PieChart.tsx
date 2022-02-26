@@ -37,9 +37,7 @@ const PieChart: React.FC<IFootPrintProps> = ({
       ]);
 
 return (
-   
-   <>
-    {data ? 
+ 
       <RadialChart
         colorType="literal"
         padAngle={.03}
@@ -51,8 +49,6 @@ return (
         height={250}
         showLabels={true}
     />
-    : <h1>not ad</h1>}
-   </>
  )
  }
  
