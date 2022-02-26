@@ -1,6 +1,7 @@
 import "./styles.css";
 import { useState, useEffect } from 'react';
 import { InterfaceFootPrint } from './data/InterfaceFootPrint';
+import PieChart from './components/PieChart'
 
 const App: React.FC = () => {
 
@@ -15,11 +16,13 @@ const App: React.FC = () => {
   .catch(console.error)
   }, [])
 
-  console.log(fpData)
+
 
   return (
     <>
-      <h1>Ducky</h1>
+      {fpData ? <PieChart
+        footPrintData={fpData}
+      /> : <h1>Loading</h1>}
     </>
     )
 }
