@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { InterfaceFootPrint } from './data/InterfaceFootPrint';
 import PieChart from './components/PieChart'
 
+
 const App: React.FC = () => {
 
   const [fpData, setFpData] = useState<InterfaceFootPrint | null>(null)

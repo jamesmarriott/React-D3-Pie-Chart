@@ -1,3 +1,6 @@
+import { RadialChart, LabelSeries } from "react-vis";
+import { useState, useEffect } from 'react';
+
 type IFootPrintProps = {
     footPrintData : {
       categories: {
@@ -19,24 +22,36 @@ const PieChart: React.FC<IFootPrintProps> = ({
         categories: { consumption },
         categories: { energy }, 
         categories: { food },
-        // categories: { public }, 
-        categories: { transport }, 
-        
+        categories: { transport },
      } = footPrintData
 
+     const { categories } = footPrintData
+     const publicPer = categories.public.percent
 
-
+    const [data, setData] = useState([
+        { angle: consumption.percent, color: "#EF5F8A", style: { stroke: "black" }},
+        { angle: energy.percent, color: "#00A1C9"},
+        { angle: food.percent, color: "#F6BA75" },
+        { angle: transport.percent, color: "#673E88" },
+        { angle: publicPer, color: "#3999E3" },
+      ]);
 
 return (
    
    <>
-       <div>
-           <p>Food:{consumption.co2mg}</p>
-           <p>Consumption: {energy.co2mg}</p>
-           <p>Energy: {food.co2mg}</p>
-           {/* <p>Transport: {public.co2mg}</p> */}
-           <p>Public: {transport.co2mg}</p>
-        </div>
+    {data ? 
+      <RadialChart
+        colorType="literal"
+        padAngle={.03}
+        innerRadius={96}
+        radius={120}
+        data={data}
+        color={d => d.color}
+        width={250}
+        height={250}
+        showLabels={true}
+    />
+    : <h1>not ad</h1>}
    </>
  )
  }
