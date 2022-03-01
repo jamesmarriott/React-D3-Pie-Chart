@@ -38,18 +38,18 @@ const PieChart: React.FC<IFootPrintProps> = ({
      // assign data in a d3 piechart friendly format 
 
      const pieData = [ 
-      {item: 'Consumption', value: consumption.percent},
-      {item: 'Energy', value: energy.percent},
-      {item: 'Food', value: food.percent}, 
-      {item: 'Transport', value: transport.percent}, 
-      {item: 'Public', value: publicPer}
+      {item: 'Consumption', percent: consumption.percent},
+      {item: 'Energy', percent: energy.percent},
+      {item: 'Food', percent: food.percent}, 
+      {item: 'Transport', percent: transport.percent}, 
+      {item: 'Public', percent: publicPer}
     ]
   
     useEffect(() => {
     // define colors
     const colors = d3.scaleOrdinal(['#EF5F8A', '#00A1C9', '#F6BA75', '#673E88', '#3999E3'])
     
-    const piedata = d3.pie().padAngle(.05).value(d => d.value)(pieData)
+    const piedata = d3.pie().padAngle(.05).value(d => d.percent)(pieData)
     
     const arc = d3.arc()
         .innerRadius(96)
@@ -76,7 +76,8 @@ const PieChart: React.FC<IFootPrintProps> = ({
         <svg ref={pieChart}>
         </svg>
       </div>
-      <Legend/>
+      <Legend
+          pieData={pieData}/>
       </>
     )
  }

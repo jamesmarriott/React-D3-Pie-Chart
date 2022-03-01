@@ -5,35 +5,41 @@ import energyicon from '.././assets/icons/energy.svg'
 import foodicon from '.././assets/icons/food.svg'
 import publicicon from '.././assets/icons/public.svg'
 import transporticon from '.././assets/icons/transport.svg'
+import { pie } from "d3";
 
+type IFootPrintProps = {
+    pieData : { item: string; value: number }[]
+}
 
-const Legend: React.FC = ({
- 
+const Legend: React.FC<IFootPrintProps>  = ({
+    pieData 
  }) => {
+
+    console.log(pieData)
 
 return (
 
     <table className='legend'>
       <tr>
-        <th><img src={foodicon} alt="consumption icon"></img></th>
-        <th><img src={consumptionicon}></img></th>
-        <th><img src={energyicon}></img></th>
-        <th><img src={transporticon}></img></th>
-        <th><img src={publicicon}></img></th>
+        <th><img src={consumptionicon} alt="consumption icon"></img></th>
+        <th><img src={energyicon} alt="energy icon"></img></th>
+        <th><img src={foodicon} alt="food icon"></img></th>
+        <th><img src={transporticon} alt="transport icon"></img></th>
+        <th><img src={publicicon} alt="public icon"></img></th>
       </tr>
       <tr>
-        <th>Food</th>
-        <th>Consumption</th>
-        <th>Energy</th>
-        <th>Transport</th>
-        <th>Public</th>
+        <th>{pieData[0].item}</th>
+        <th>{pieData[1].item}</th>
+        <th>{pieData[2].item}</th>
+        <th>{pieData[3].item}</th>
+        <th>{pieData[4].item}</th>
     </tr>
       <tr>
-        <td>39%</td>
-        <td>25%</td>
-        <td>15%</td>
-        <td>10%</td>
-        <td>0%</td>
+        <td>{Math.round(pieData[0].percent)}%</td>
+        <td>{Math.round(pieData[1].percent)}%</td>
+        <td>{Math.round(pieData[2].percent)}%</td>
+        <td>{Math.round(pieData[3].percent)}%</td>
+        <td>{Math.round(pieData[4].percent)}%</td>
       </tr>
     </table>
  )
