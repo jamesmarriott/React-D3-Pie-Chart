@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import * as d3 from 'd3';
+import "./pie-styles.css";
 
 type IFootPrintProps = {
     footPrintData : {
@@ -68,7 +69,7 @@ const PieChart: React.FC<IFootPrintProps> = ({
       }, []);
     
       return (
-        <div className='.App'>
+        <div className='pieChart'>
           <svg width="250" height="250">
           </svg>
         </div>

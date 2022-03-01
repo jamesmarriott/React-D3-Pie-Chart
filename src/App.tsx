@@ -1,4 +1,3 @@
-import "./styles.css";
 import { useState, useEffect } from 'react';
 import { InterfaceFootPrint } from './data/InterfaceFootPrint';
 import PieChart from './components/PieChart'
