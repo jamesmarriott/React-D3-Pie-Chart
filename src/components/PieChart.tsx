@@ -32,17 +32,8 @@ const PieChart: React.FC<IFootPrintProps> = ({
      // next line not allowed to destructure using reserved 'public' keyword
      const publicPer = categories.public.percent
 
-    const [data, setData] = useState([
-        { angle: consumption.percent, color: "#EF5F8A"},
-        { angle: energy.percent, color: "#00A1C9"},
-        { angle: food.percent, color: "#F6BA75" },
-        { angle: transport.percent, color: "#673E88" },
-        { angle: publicPer, color: "#3999E3" },
-      ]);
-
     const [pieData, setPieData] = useState([ consumption.percent, energy.percent, food.percent, transport.percent, publicPer])
-
-      
+    
       useEffect(() => {
         const svg = d3.select("svg")	
         const width = 240
