@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import Legend from './Legend';
 import "./pie-styles.css";
@@ -16,34 +16,23 @@ type IFootPrintProps = {
     }
 }
 
+
 const PieChart: React.FC<IFootPrintProps> = ({
     footPrintData
  }) => {
  
-    // destructure incoming data props
+    const pieChartRef = useRef()
 
-    const pieChart = useRef()
-
-    const { 
-        categories: { consumption },
-        categories: { energy }, 
-        categories: { food },
-        categories: { transport },
-     } = footPrintData
-
+   // destructure incoming data props
      const { categories } = footPrintData
-     // next line not allowed to destructure using reserved 'public' keyword
-     const publicPer = categories.public.percent
 
-     // assign data in a d3 piechart friendly format 
-
-     const pieData = [ 
-      {item: 'Consumption', percent: consumption.percent},
-      {item: 'Energy', percent: energy.percent},
-      {item: 'Food', percent: food.percent}, 
-      {item: 'Transport', percent: transport.percent}, 
-      {item: 'Public', percent: publicPer}
-    ]
+     const [pieData, setPieData] = useState([ 
+      {item: 'Consumption', percent: categories.consumption.percent},
+      {item: 'Energy', percent: categories.energy.percent},
+      {item: 'Food', percent: categories.food.percent}, 
+      {item: 'Transport', percent: categories.transport.percent}, 
+      {item: 'Public', percent: categories.public.percent}
+    ])
   
     useEffect(() => {
     // define colors
@@ -54,8 +43,9 @@ const PieChart: React.FC<IFootPrintProps> = ({
     const arc = d3.arc()
         .innerRadius(96)
         .outerRadius(120);
+        
     
-    const svg = d3.select(pieChart.current)
+    const svg = d3.select(pieChartRef.current)
                     .attr('width', 240)
                     .attr('height', 240)
                       .append('g')
@@ -67,13 +57,22 @@ const PieChart: React.FC<IFootPrintProps> = ({
       .join('path')
         .attr('d', arc)
         .attr('fill', (d,i)=>colors(i))
-
-  }, []);
+        .attr('stroke', 'white')
+        .on('mouseover', (event,d) => {
+          d3.select(event.currentTarget)
+          .style("stroke", "black")
+          .style('stroke-width', '2px');
+        })
+        .on("mouseout", (event, d) => {
+          d3.select(event.currentTarget)
+          .style('stroke', 'white')
+        })
+    })
   
     return (
       <>
-      <div id='pieChart'>
-        <svg ref={pieChart}>
+      <div>
+        <svg ref={pieChartRef}>
         </svg>
       </div>
       <Legend

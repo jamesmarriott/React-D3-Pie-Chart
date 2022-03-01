@@ -8,6 +8,6 @@
 # Legend
 - need to check alignments to design
 - padding and so on is off
-- change hard coded data to props
 
-# 
+# Notes
+
