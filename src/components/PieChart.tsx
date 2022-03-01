@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import Legend from './Legend';
 import "./pie-styles.css";
@@ -20,6 +20,9 @@ const PieChart: React.FC<IFootPrintProps> = ({
     footPrintData
  }) => {
  
+    // destructure incoming data props
+
+    const pieChart = useRef()
 
     const { 
         categories: { consumption },
@@ -32,43 +35,50 @@ const PieChart: React.FC<IFootPrintProps> = ({
      // next line not allowed to destructure using reserved 'public' keyword
      const publicPer = categories.public.percent
 
-    const [pieData, setPieData] = useState([ consumption.percent, energy.percent, food.percent, transport.percent, publicPer])
+     // assign data in a d3 piechart friendly format 
+
+     const pieData = [ 
+      {item: 'Consumption', value: consumption.percent},
+      {item: 'Energy', value: energy.percent},
+      {item: 'Food', value: food.percent}, 
+      {item: 'Transport', value: transport.percent}, 
+      {item: 'Public', value: publicPer}
+    ]
+  
+    useEffect(() => {
+    // define colors
+    const colors = d3.scaleOrdinal(['#EF5F8A', '#00A1C9', '#F6BA75', '#673E88', '#3999E3'])
     
-      useEffect(() => {
-        const svg = d3.select("svg")	
-        const width = 240
-        const height = 240
-        const radius = Math.min(width, height) / 2
+    const piedata = d3.pie().padAngle(.05).value(d => d.value)(pieData)
     
-        const g = svg.append('g')
-        .attr('transform', 'translate('+ width / 2 + ',' + height / 2 + ')');
+    const arc = d3.arc()
+        .innerRadius(96)
+        .outerRadius(120);
     
-        const color = d3.scaleOrdinal(['#EF5F8A', '#00A1C9', '#F6BA75', '#673E88', '#3999E3'])
-        const pie = d3.pie();
-        const arc = d3.arc()
-            .innerRadius(108)
-            .outerRadius(radius);
-        const arcs = g.selectAll('arc')
-            .data(pie(pieData))
-            .enter().append('g')
-            .attr('class','arc')
-        
-        arcs.append('path')
-          .attr('fill',function(i){
-            return color(i)
-          })
-          .attr('d', arc);
-      }, []);
-    
-      return (
-        <>
-        <div className='pieChart'>
-          <svg width="250" height="250">
-          </svg>
-        </div>
-        <Legend/>
-        </>
-      )
+    const svg = d3.select(pieChart.current)
+                    .attr('width', 240)
+                    .attr('height', 240)
+                      .append('g')
+                      .attr('transform', 'translate(120, 120)')
+
+    svg.append('g')
+      .selectAll('path')
+      .data(piedata)
+      .join('path')
+        .attr('d', arc)
+        .attr('fill', (d,i)=>colors(i))
+
+  }, []);
+  
+    return (
+      <>
+      <div id='pieChart'>
+        <svg ref={pieChart}>
+        </svg>
+      </div>
+      <Legend/>
+      </>
+    )
  }
  
  

@@ -7,6 +7,7 @@
 - No gaps betwween sections. Add in dummy data to simulate?
 
 # Legend
-
+- need to check alignments to design
+- padding and so on is off
 
 # 
