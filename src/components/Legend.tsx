@@ -5,10 +5,6 @@ import { useState, useEffect, useRef } from 'react';
 const Legend: React.FC = ({
  
  }) => {
- 
-
-
-
 
 return (
 

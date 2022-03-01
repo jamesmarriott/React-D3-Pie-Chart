@@ -1,6 +1,5 @@
-import { RadialChart, LabelSeries } from "react-vis";
-import { useState, useEffect, useRef } from 'react';
-import { Legend } from 'Legend';
+import { useState, useEffect } from 'react';
+import * as d3 from 'd3';
 
 type IFootPrintProps = {
     footPrintData : {
@@ -28,12 +27,8 @@ const PieChart: React.FC<IFootPrintProps> = ({
      } = footPrintData
 
      const { categories } = footPrintData
-     // addded because typescript won't let me destructure using reserved 'public' keyword
+     // next line not allowed to destructure using reserved 'public' keyword
      const publicPer = categories.public.percent
-
-     useEffect(() => {
-        console.log(chartRef)
-	}, [chartRef]);
 
     const [data, setData] = useState([
         { angle: consumption.percent, color: "#EF5F8A"},
@@ -43,20 +38,41 @@ const PieChart: React.FC<IFootPrintProps> = ({
         { angle: publicPer, color: "#3999E3" },
       ]);
 
-return (
+    const [pieData, setPieData] = useState([ consumption.percent, energy.percent, food.percent, transport.percent, publicPer])
 
-      <RadialChart
-        colorType="literal"
-        padAngle={.03}
-        innerRadius={96}
-        radius={120}
-        data={data}
-        color={d => d.color}
-        width={250}
-        height={250}
-        showLabels={true}
-    />  
- )
+      
+      useEffect(() => {
+        const svg = d3.select("svg")	
+        const width = 240
+        const height = 240
+        const radius = Math.min(width, height) / 2
+    
+        const g = svg.append('g')
+        .attr('transform', 'translate('+ width / 2 + ',' + height / 2 + ')');
+    
+        const color = d3.scaleOrdinal(['#EF5F8A', '#00A1C9', '#F6BA75', '#673E88', '#3999E3'])
+        const pie = d3.pie();
+        const arc = d3.arc()
+            .innerRadius(108)
+            .outerRadius(radius);
+        const arcs = g.selectAll('arc')
+            .data(pie(pieData))
+            .enter().append('g')
+            .attr('class','arc')
+        
+        arcs.append('path')
+          .attr('fill',function(i){
+            return color(i)
+          })
+          .attr('d', arc);
+      }, []);
+    
+      return (
+        <div className='.App'>
+          <svg width="250" height="250">
+          </svg>
+        </div>
+      )
  }
  
  
