@@ -20,9 +20,11 @@ const App: React.FC = () => {
 
   return (
     <>
-      {fpData ? <PieChart
+      {fpData ? 
+      <PieChart
         footPrintData={fpData}
-      /> : <h1>Loading</h1>}
+      />
+       : <h1>Loading</h1>}
     </>
     )
 }
