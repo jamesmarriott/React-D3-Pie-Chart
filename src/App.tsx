@@ -18,17 +18,15 @@ const App: React.FC = () => {
   .catch(console.error)
   }, [])
 
-
-
   return (
     <>
       {fpData ? 
       <PieChart
         footPrintData={fpData}
       />
-       : <h1>Loading</h1>}
+      : <h1>Loading</h1>}
     </>
-    )
+  )
 }
 
 export default App

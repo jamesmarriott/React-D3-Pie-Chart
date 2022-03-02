@@ -1,5 +1,6 @@
 body {
     font-family: "Montserrat";
+    background-color: #E5e5e5;
     min-height: 100vh;
     display: flex;
     flex-direction: column;

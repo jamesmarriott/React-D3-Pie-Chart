@@ -1,5 +1,4 @@
 import "./legend-styles.css"
-import { useState, useEffect, useRef } from 'react';
 import consumptionicon from '.././assets/icons/consumption.svg'
 import energyicon from '.././assets/icons/energy.svg'
 import foodicon from '.././assets/icons/food.svg'
@@ -12,19 +11,17 @@ type IFootPrintProps = {
 
 const Legend: React.FC<IFootPrintProps>  = ({
     pieData 
- }) => {
+}) => {
 
-
-return (
-
+  return (
     <table className='legend'>
       <thead>
       <tr>
-        <th><img src={consumptionicon} alt="consumption icon"></img></th>
-        <th><img src={energyicon} alt="energy icon"></img></th>
-        <th><img src={foodicon} alt="food icon"></img></th>
-        <th><img src={transporticon} alt="transport icon"></img></th>
-        <th><img src={publicicon} alt="public icon"></img></th>
+        <td><img src={consumptionicon} alt="consumption icon"></img></td>
+        <td><img src={energyicon} alt="energy icon"></img></td>
+        <td><img src={foodicon} alt="food icon"></img></td>
+        <td><img src={transporticon} alt="transport icon"></img></td>
+        <td><img src={publicicon} alt="public icon"></img></td>
       </tr>
       <tr>
         <th>{pieData[0].item}</th>
@@ -44,8 +41,7 @@ return (
       </tr>
       </tbody>
     </table>
- )
- }
+  )
+}
  
- 
- export default Legend
+export default Legend

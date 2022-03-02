@@ -1,29 +1,47 @@
-.legend{
+/* Legend Table */
+.legend {
     width: 296px;
     height: 80px;
+    background-color: #fff;
+    border-spacing: 8px 0px;
+    padding-bottom: 4px;
   }
 
-.lengend th, tr, td{
+/* All Table Typography */
+.legend th, tr, td{
   text-align: center;
+  line-height: 14px;
 }
-  
+
+/* Category Icon */
+.legend img{
+  padding-bottom: 8px;
+  width: 36px;
+  height: 36px;
+}
+
+/* Category Text */
 .legend th{
     max-width: 36px;
     overflow: hidden;
-    font-size: 14px;
+    text-overflow: ellipsis;
+    font-size: 12px;
     font-family: "Hind";
     font-weight: 400;
+    /* BRAND - grey: 900*/
     color: #263238;
 }
 
+.legend th:hover {
+  overflow: visible;
+}
+
+/* Percentage Text */
 .legend td{
   font-family: "Montserrat";
   font-weight: 400;
   font-size: 12px;
-  line-height: 14px;
-}
-
-.legend img{
-  width: 36px;
-  height: 36px;
+  /* BRAND - Grey 600 */
+  color: #546E7A;
+  overflow: hidden;
 }
