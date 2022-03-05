@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import * as d3 from 'd3'
 import Legend from './Legend'
+import './pie-styles.css'
 
 type IFootPrintProps = {
     footPrintData : {
@@ -26,15 +27,15 @@ const PieChart: React.FC<IFootPrintProps> = ({
  
     const pieData = [
     // @ts-ignore
-    {item: 'Consumption', percent: categories.consumption.percent},
+    {item: 'Consumption', percent: categories.consumption.percent, value: categories.consumption.co2mg},
     // @ts-ignore
-    {item: 'Energy', percent: categories.energy.percent},
+    {item: 'Energy', percent: categories.energy.percent, value: categories.energy.co2mg},
     // @ts-ignore
-    {item: 'Food', percent: categories.food.percent}, 
+    {item: 'Food', percent: categories.food.percent, value: categories.food.co2mg}, 
     // @ts-ignore
-    {item: 'Transport', percent: categories.transport.percent}, 
+    {item: 'Transport', percent: categories.transport.percent, value: categories.transport.co2mg}, 
     // @ts-ignore
-    {item: 'Public', percent: categories.public.percent}
+    {item: 'Public', percent: categories.public.percent, value: categories.public.co2mg}
   ]
   
   useEffect(() => { 
@@ -57,6 +58,17 @@ const PieChart: React.FC<IFootPrintProps> = ({
     .innerRadius(94)
     .outerRadius(118)
 
+  // Create the tooltip div
+  const tooldiv = d3.select('#pieChartDiv')
+                    .append('div')
+                    .style('visibility', 'hidden')
+                    .style('position', 'absolute')
+                    .style('padding', '10px')
+                    .style('max-width', '100px')
+                    .style('text-align', 'center')
+                    .style('overflow', 'hidden')
+                    .style('background-color', '#E5e5e5')
+
   svg.append('g')
     .selectAll('path')
     .data(piedata)
@@ -66,23 +78,38 @@ const PieChart: React.FC<IFootPrintProps> = ({
       // @ts-ignore
       .attr('fill', (d,i)=>colors(i))
     // ISSUE: This is where the 2px black stroke is applied and removed on hover.
-      .on('mouseover', (event,d) => {
+      .on('mouseenter', (event, d) => {
+        console.log("over")
         d3.select(event.currentTarget)
         .style('stroke', 'black')
+          .transition()
+          .style('stroke', 'black')
         .style('stroke-width', '2px')
+        tooldiv.style('visibility', 'visible')
+              // @ts-ignore
+                .text( `${d.data.item}` + ": " + `${Math.round(d.data.percent)}%` + " co2: " + `${Math.round(d.data.value).toLocaleString()}`)
+        tooldiv.style('top', `${event.pageY-100}px`)
+        .style('left', `${event.pageX-25}px`)
       })
-      .on("mouseout", (event, d) => {
+      .on('mouseout', (event, d) => {
+        console.log("out")
         d3.select(event.currentTarget)
         .style('stroke', 'none')
+          .transition()
+          .style('stroke', 'none')
+        tooldiv.style('visibility', 'hidden')
       })
+
   })
 
   return (
     <>
-      <svg ref={pieChartRef}>
-      </svg>
-      <Legend
-          pieData={pieData}/>
+        <div id="pieChartDiv">
+          <svg ref={pieChartRef}>
+          </svg>
+        </div>
+    <Legend
+      pieData={pieData}/>
     </>
   )
 }
